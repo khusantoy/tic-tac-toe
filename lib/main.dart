@@ -58,6 +58,23 @@ class MyApp extends StatelessWidget {
                     ),
                   ],
                 ),
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: 'Turn: ',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'X',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ]),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
