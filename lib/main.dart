@@ -1,13 +1,37 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool personTurn = true;
+
+  List position = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0],
+  ];
+
+  List isPressed = [
+    [false, false, false],
+    [false, false, false],
+    [false, false, false],
+  ];
+
+  List currentState = [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', ''],
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -59,48 +83,63 @@ class MyApp extends StatelessWidget {
                   ],
                 ),
                 RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                      text: 'Turn: ',
-                      style: TextStyle(
-                        fontSize: 18,
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: 'Turn: ',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: 'X',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                      TextSpan(
+                        text: personTurn ? 'X' : '0',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ]),
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              right: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
-                              ),
-                              bottom: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
+                        GestureDetector(
+                          onTap: () {
+                            personTurn = !personTurn;
+                            position[0][0] = 1;
+                            currentState[0][0] = 'X';
+                            isPressed[0][0] = true;
+                            setState(() {});
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                right: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
+                                bottom: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
                               ),
                             ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'X',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 80,
+                            child: Center(
+                              child: Text(
+                                isPressed[0][0]
+                                    ? currentState[0][0]
+                                    : personTurn
+                                        ? 'X'
+                                        : '0',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 80,
+                                ),
                               ),
                             ),
                           ),
