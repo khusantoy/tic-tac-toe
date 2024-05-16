@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,25 +14,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool personTurn = true;
-
-  List position = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0],
-  ];
-
-  List isPressed = [
-    [false, false, false],
-    [false, false, false],
-    [false, false, false],
-  ];
-
-  List currentState = [
+  List<List<String>> currentState = [
     ['', '', ''],
     ['', '', ''],
     ['', '', ''],
   ];
+
+  void robot() {
+    while (true) {
+      int randNumber1 = Random().nextInt(3);
+      int randNumber2 = Random().nextInt(3);
+
+      if (currentState[0].contains('') ||
+          currentState[1].contains('') ||
+          currentState[2].contains('')) {
+        if (currentState[randNumber1][randNumber2] == '') {
+          setState(() {
+            currentState[randNumber1][randNumber2] = '0';
+          });
+          break;
+        }
+      } else {
+        break;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +52,7 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                //! column 1
                 Column(
                   children: [
                     Text(
@@ -83,17 +92,17 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     children: [
-                      const TextSpan(
-                        text: 'Turn: ',
+                      TextSpan(
+                        text: 'Start game: ',
                         style: TextStyle(
                           fontSize: 18,
                         ),
                       ),
                       TextSpan(
-                        text: personTurn ? 'X' : '0',
-                        style: const TextStyle(
+                        text: "X",
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                         ),
@@ -106,13 +115,13 @@ class _MyAppState extends State<MyApp> {
                   children: [
                     Column(
                       children: [
-                        GestureDetector(
+                        InkWell(
                           onTap: () {
-                            personTurn = !personTurn;
-                            position[0][0] = 1;
-                            currentState[0][0] = 'X';
-                            isPressed[0][0] = true;
-                            setState(() {});
+                            if (currentState[0][0] == '') {
+                              currentState[0][0] = 'X';
+                              robot();
+                              setState(() {});
+                            }
                           },
                           child: Container(
                             width: 100,
@@ -131,186 +140,284 @@ class _MyAppState extends State<MyApp> {
                             ),
                             child: Center(
                               child: Text(
-                                isPressed[0][0]
-                                    ? currentState[0][0]
-                                    : personTurn
-                                        ? 'X'
-                                        : '0',
-                                style: const TextStyle(
-                                  color: Colors.white,
+                                currentState[0][0],
+                                style: TextStyle(
+                                  color: currentState[0][0] == 'X'
+                                      ? Colors.white
+                                      : const Color(0xFF015B5F),
                                   fontSize: 80,
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              right: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
-                              ),
-                              bottom: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
+                        InkWell(
+                          onTap: () {
+                            if (currentState[1][0] == '') {
+                              currentState[1][0] = 'X';
+                              robot();
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                right: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
+                                bottom: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
                               ),
                             ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              '0',
-                              style: TextStyle(
-                                color: Color(0xFF015B5F),
-                                fontSize: 80,
+                            child: Center(
+                              child: Text(
+                                currentState[1][0],
+                                style: TextStyle(
+                                  color: currentState[1][0] == 'X'
+                                      ? Colors.white
+                                      : const Color(0xFF015B5F),
+                                  fontSize: 80,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              right: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
+                        InkWell(
+                          onTap: () {
+                            if (currentState[2][0] == '') {
+                              currentState[2][0] = 'X';
+                              robot();
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                right: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
                               ),
                             ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'X',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 80,
+                            child: Center(
+                              child: Text(
+                                currentState[2][0],
+                                style: TextStyle(
+                                  color: currentState[2][0] == 'X'
+                                      ? Colors.white
+                                      : const Color(0xFF015B5F),
+                                  fontSize: 80,
+                                ),
                               ),
                             ),
                           ),
                         )
                       ],
                     ),
+                    //! column 2
                     Column(
                       children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
+                        InkWell(
+                          onTap: () {
+                            if (currentState[0][1] == '') {
+                              currentState[0][1] = 'X';
+            
+                              robot();
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
                               ),
                             ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              '0',
-                              style: TextStyle(
-                                color: Color(0xFF015B5F),
-                                fontSize: 80,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
-                              ),
-                            ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              '0',
-                              style: TextStyle(
-                                color: Color(0xFF015B5F),
-                                fontSize: 80,
+                            child: Center(
+                              child: Text(
+                                currentState[0][1],
+                                style: TextStyle(
+                                  color: currentState[0][1] == 'X'
+                                      ? Colors.white
+                                      : const Color(0xFF015B5F),
+                                  fontSize: 80,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        Container(
-                          width: 100,
-                          height: 100,
+                        InkWell(
+                          onTap: () {
+                            if (currentState[1][1] == '') {
+                              currentState[1][1] = 'X';
+                              robot();
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                currentState[1][1],
+                                style: TextStyle(
+                                  color: currentState[1][1] == 'X'
+                                      ? Colors.white
+                                      : const Color(0xFF015B5F),
+                                  fontSize: 80,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (currentState[2][1] == '') {
+                              currentState[2][1] = 'X';
+                              robot();
+                              setState(() {});
+                            }
+                          },
+                          child: SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Center(
+                              child: Text(
+                                currentState[2][1],
+                                style: TextStyle(
+                                  color: currentState[2][1] == 'X'
+                                      ? Colors.white
+                                      : const Color(0xFF015B5F),
+                                  fontSize: 80,
+                                ),
+                              ),
+                            ),
+                          ),
                         )
                       ],
                     ),
+                    //! column 3
                     Column(
                       children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
-                              ),
-                              bottom: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
-                              ),
-                            ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'X',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 80,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
-                              ),
-                              bottom: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
+                        InkWell(
+                          onTap: () {
+                            if (currentState[0][2] == '') {
+                              currentState[0][2] = 'X';
+                              robot();
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                left: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
+                                bottom: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
                               ),
                             ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'X',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 80,
+                            child: Center(
+                              child: Text(
+                                currentState[0][2],
+                                style: TextStyle(
+                                  color: currentState[0][2] == 'X'
+                                      ? Colors.white
+                                      : const Color(0xFF015B5F),
+                                  fontSize: 80,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                width: 5,
-                                color: Color(0xFFDDB785),
+                        InkWell(
+                          onTap: () {
+                            if (currentState[1][2] == '') {
+                              currentState[1][2] = 'X';
+                              robot();
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                left: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
+                                bottom: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                currentState[1][2],
+                                style: TextStyle(
+                                  color: currentState[1][2] == 'X'
+                                      ? Colors.white
+                                      : const Color(0xFF015B5F),
+                                  fontSize: 80,
+                                ),
                               ),
                             ),
                           ),
-                          child: const Center(
-                            child: Text(
-                              '0',
-                              style: TextStyle(
-                                color: Color(0xFF015B5F),
-                                fontSize: 80,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (currentState[2][2] == '') {
+                              currentState[2][2] = 'X';
+                              robot();
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                left: BorderSide(
+                                  width: 5,
+                                  color: Color(0xFFDDB785),
+                                ),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                currentState[2][2],
+                                style: TextStyle(
+                                  color: currentState[2][2] == 'X'
+                                      ? Colors.white
+                                      : const Color(0xFF015B5F),
+                                  fontSize: 80,
+                                ),
                               ),
                             ),
                           ),
