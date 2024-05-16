@@ -228,7 +228,7 @@ class _MyAppState extends State<MyApp> {
                           onTap: () {
                             if (currentState[0][1] == '') {
                               currentState[0][1] = 'X';
-            
+
                               robot();
                               setState(() {});
                             }
