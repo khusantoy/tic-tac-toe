@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+https://github.com/khusantoy/tic-tac-toe/assets/119614237/6d542288-50ef-4bc0-b30e-a0c274a65153
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
